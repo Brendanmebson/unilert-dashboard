@@ -15,7 +15,8 @@ import DispatchSystem from './pages/DispatchSystem';
 import ChatSystem from './pages/ChatSystem';
 import CallingSystem from './pages/CallingSystem';
 import Alerts from './pages/Alerts';
-import Users from './pages/Users';
+import Users  from './pages/Users';
+import SOSreport from './pages/SOSreport';
 import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 import AdminProfile from './pages/AdminProfile';
@@ -38,6 +39,7 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="incidents" element={<IncidentList />} />
               <Route path="incidents/:id" element={<IncidentDetail />} />
+              <Route path="sosreport" element={<SOSreport />} />
               <Route path="dispatch" element={<DispatchSystem />} />
               <Route path="chat" element={<ChatSystem />} />
               <Route path="calling" element={<CallingSystem />} />

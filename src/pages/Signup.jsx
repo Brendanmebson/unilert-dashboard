@@ -8,7 +8,12 @@ import {
   Grid,
   IconButton, 
   InputAdornment,
-  Alert
+  Alert,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormLabel
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +26,8 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import SendIcon from '@mui/icons-material/Send';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import PersonIcon from '@mui/icons-material/Person';
 import unilertLogo from "../assets/unilert-logo-dark.png";
 
 function SignUp() {
@@ -31,7 +38,8 @@ function SignUp() {
     securityId: "",
     password: "",
     confirmPassword: "",
-    securityCode: ""
+    securityCode: "",
+    role: "user" // Default role is user
   });
   const [formError, setFormError] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -98,7 +106,7 @@ function SignUp() {
     e.preventDefault();
     
     // Form validation
-    if (!formData.fullName || !formData.securityId || !formData.password || !formData.securityCode) {
+    if (!formData.fullName || !formData.securityId || !formData.password) {
       setFormError('Please fill in all required fields');
       return;
     }
@@ -108,12 +116,19 @@ function SignUp() {
       return;
     }
     
+    // Check if security code is provided for admin role
+    if (formData.role === "admin" && !formData.securityCode) {
+      setFormError('Security Authorization Code is required for admin accounts');
+      return;
+    }
+    
     // Registration data
     const userData = {
       name: formData.fullName,
       securityId: formData.securityId,
       password: formData.password,
-      securityCode: formData.securityCode
+      securityCode: formData.securityCode,
+      role: formData.role
     };
     
     dispatch(register(userData));
@@ -181,7 +196,7 @@ function SignUp() {
             alignItems: "center",
             p: { xs: 2, md: 4 },
             height: "100vh",
-            overflowY: "auto"
+            overflow: "hidden" // Changed from overflowY: "auto" to overflow: "hidden" to remove scrollbar
           }}
         >
           <Box sx={{ width: '100%', maxWidth: 450 }}>
@@ -325,6 +340,39 @@ function SignUp() {
                   }}
                 />
                 
+                {/* Role Selection */}
+                <FormControl component="fieldset" sx={{ mb: 2, width: "100%" }}>
+                  <FormLabel component="legend" sx={{ mb: 1 }}>Account Type</FormLabel>
+                  <RadioGroup
+                    row
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel 
+                      value="user" 
+                      control={<Radio />} 
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <PersonIcon sx={{ mr: 1, color: '#003366' }} />
+                          <Typography>User</Typography>
+                        </Box>
+                      } 
+                      sx={{ mr: 4 }}
+                    />
+                    <FormControlLabel 
+                      value="admin" 
+                      control={<Radio />} 
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <AdminPanelSettingsIcon sx={{ mr: 1, color: '#E8A317' }} />
+                          <Typography>Admin</Typography>
+                        </Box>
+                      } 
+                    />
+                  </RadioGroup>
+                </FormControl>
+                
                 <TextField
                   fullWidth
                   margin="normal"
@@ -334,15 +382,18 @@ function SignUp() {
                   onChange={handleChange}
                   variant="outlined"
                   sx={{ mb: 3 }}
-                  required
+                  required={formData.role === "admin"}
+                  disabled={formData.role === "user"}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <ShieldIcon color="primary" />
+                        <ShieldIcon color={formData.role === "admin" ? "primary" : "disabled"} />
                       </InputAdornment>
                     )
                   }}
-                  helperText="Enter the security code provided by your institution"
+                  helperText={formData.role === "admin" 
+                    ? "Enter the security code provided by your institution" 
+                    : "Security code not required for user accounts"}
                 />
                 
                 <Button

@@ -14,6 +14,7 @@ import {
   ListItemButton,
   Typography,
   useTheme,
+  Badge,
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -26,6 +27,7 @@ import SendIcon from '@mui/icons-material/Send';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import SOSIcon from '@mui/icons-material/SosOutlined';
 import { useState } from 'react';
 
 const drawerWidth = 280; // Increased width further for bigger text
@@ -93,6 +95,7 @@ function Sidebar({ open }) {
               } 
             />
           </ListItem>
+          
 
           {/* Incidents Section */}
           <ListItemButton 
@@ -106,6 +109,7 @@ function Sidebar({ open }) {
               },
             }}
           >
+          
             <ListItemIcon>
               <WarningIcon sx={{ fontSize: 28 }} /> {/* Larger icon */}
             </ListItemIcon>
@@ -345,7 +349,32 @@ function Sidebar({ open }) {
               } 
             />
           </ListItem>
-
+          <ListItem
+  button
+  component={RouterLink}
+  to="/SOSreport"
+  selected={location.pathname === '/sos'}
+  sx={{
+    py: 1.5,
+    '&.Mui-selected': {
+      backgroundColor: 'action.selected',
+      borderRight: '3px solid',
+      
+      borderColor: 'error.main', // Use error color to highlight importance
+    },
+  }}
+>
+  <ListItemIcon>
+    <Badge color="error" variant="dot" invisible={false}>
+      <NotificationsActiveIcon color="error" />
+    </Badge>
+  </ListItemIcon>
+  <ListItemText 
+    primary={
+      <Typography fontWeight={800} color="error">SOS Emergencies</Typography>
+    } 
+  />
+</ListItem>
           <Divider sx={{ my: 1.5 }} />
 
           <ListItem
