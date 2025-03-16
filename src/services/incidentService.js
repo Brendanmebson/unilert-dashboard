@@ -57,7 +57,7 @@ let mockIncidents = [
     coordinates: { lat: 6.8937, lng: 3.7182 }, // University library (approximate)
     reportedBy: {
       name: 'John Smith',
-      matricNumber: 'BU/21/CS/0123',
+      matricNumber: '21/0123',
       phoneNumber: '08012345678',
       course: 'Computer Science',
       department: 'Science and Technology'
@@ -101,7 +101,7 @@ let mockIncidents = [
     coordinates: { lat: 6.8947, lng: 3.7162 }, // Science building (approximate)
     reportedBy: {
       name: 'Sarah Johnson',
-      matricNumber: 'BU/22/BIO/0567',
+      matricNumber: '22/0567',
       phoneNumber: '08098765432',
       course: 'Biology',
       department: 'Science and Technology'
